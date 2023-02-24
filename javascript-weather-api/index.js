@@ -17,7 +17,8 @@ const forecast = (list) => {
 //----- use the weather data to update dom //step 4
 const setInterface = (weather) => {
   const { name, country } = weather.city; //----- destructure the data
-  const title = `<div class="location"><h2>Location: ${name} , ${country}</h2></div>`; //----- build page title
+  const title = `<div class="location"><h2>Location:</h2></div>
+                  <div class="location-name"><h2>${name} , ${country}</h2></div>`; //----- build page title
   root.innerHTML = title; //----- put title in dom
 
   forecast(weather.list); //----- call forecast function
@@ -27,17 +28,25 @@ const setInterface = (weather) => {
 const success = async ({ coords }) => {
   const { latitude, longitude } = coords;
 
+  //start spinner, here is before get data
+  const loading = document.getElementById("loading");
+  loading.classList.add("loading");
+
   const { data } = await axios.get(
     `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=94048389ab1c2aeec5dd9f7a5c2fbdeb`
   ); //----- get data from openweather // await - means please wait until the data arrives before the program carries on, as it needs the data before it carries on
   setInterface(data);
   //----- once get user geolocation ,it call success function and then get data from openweather, finally call setinterface function
+
+  //stop spinner, here is after got the data
+  loading.classList.remove("loading");
 };
 
 //second situation (if fail) //step 2
 const fail = (fail) => {
-  root.innerHTML = `<div class="guide"><h2>Find a forecast<h2> </div>`;
+  return;
 };
+loading.classList.remove("loading");
 
 //get user geolocation //step 1
 navigator.geolocation.getCurrentPosition(success, fail);
