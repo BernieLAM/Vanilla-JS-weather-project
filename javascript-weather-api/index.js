@@ -58,7 +58,7 @@ document.getElementById("location").addEventListener("input", (e) => {
   async function getData() {
     const city = e.target.value; //----- "e" means event, "target" property returns the element where the event occured, "value" can be change to other like tagNmae
     const { data } = await axios.get(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=94048389ab1c2aeec5dd9f7a5c2fbdeb`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=94048389ab1c2aeec5dd9f7a5c2fbdeb`
     ); //----- axios is always with {data}, if there is the same name in same scope, rename it like { data : weather }
 
     //get lon lat from data // step 2
