@@ -1,11 +1,14 @@
 export const createForecastItem = (item) => {
-  return `<div class="forecastItem">
-    <p>${new Date(item.dt * 1000).toLocaleString()}</p>
-    <p>${Math.round(item.main.temp - 273.15)}&#8451</p>
-    <p>${item.weather[0].main}</p>  
-    <img src="https://openweathermap.org/img/wn/${
-      item.weather[0].icon
-    }.png" alt="${item.weather[0].main}">
+  return `
+  <div class="big-container">
+    <div class="forecastItem">
+     <div class="time"><p>${new Date(item.dt * 1000).toLocaleString()}</p></div>
+     <div class="temp"><p>${Math.round(item.main.temp - 273.15)}&#8451</p></div>
+     <div class="status"><p>${item.weather[0].main}</p></div>
+     <div class="icon"><img src="https://openweathermap.org/img/wn/${
+       item.weather[0].icon
+     }.png" alt="${item.weather[0].main}"></div>
+    </div>
   </div>`;
 };
 

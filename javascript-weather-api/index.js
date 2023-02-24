@@ -1,4 +1,4 @@
-const root = document.getElementById("root");
+const root = document.getElementById("root"); //----- link with html
 
 import { createForecastItem } from "./createForecastItem.js";
 
@@ -17,7 +17,7 @@ const forecast = (list) => {
 //----- use the weather data to update dom //step 4
 const setInterface = (weather) => {
   const { name, country } = weather.city; //----- destructure the data
-  const title = `Location: ${name} , ${country}`; //----- build page title
+  const title = `<div class="location"><h2>Location: ${name} , ${country}</h2></div>`; //----- build page title
   root.innerHTML = title; //----- put title in dom
 
   forecast(weather.list); //----- call forecast function
@@ -36,28 +36,29 @@ const success = async ({ coords }) => {
 
 //second situation (if fail) //step 2
 const fail = (fail) => {
-  root.innerHTML = `Find a forecast `;
+  root.innerHTML = `<div class="guide"><h2>Find a forecast<h2> </div>`;
 };
 
 //get user geolocation //step 1
 navigator.geolocation.getCurrentPosition(success, fail);
 
-//user input location to call weather
+//-------------------------------------------------- user input location to call weather --------------------------------------------------//
+
 document.getElementById("location").addEventListener("input", (e) => {
   //go to weather api and get data from input event // step 1
   async function getData() {
     const city = e.target.value; //----- "e" means event, "target" property returns the element where the event occured, "value" can be change to other like tagNmae
     const { data } = await axios.get(
       `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=94048389ab1c2aeec5dd9f7a5c2fbdeb`
-    );
+    ); //----- axios is always with {data}, if there is the same name in same scope, rename it like { data : weather }
 
-    //get lon lat from data
+    //get lon lat from data // step 2
     if (data[0] && data[0]) {
       const { lat, lon } = data[0]; //----- if() means if lon and lat are truly // before is (data[0].lat && data[0].lon), now is destructured
       const { data: weather } = await axios.get(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=94048389ab1c2aeec5dd9f7a5c2fbdeb`
       );
-      setInterface(weather); // ----- call setInterface function and send weather
+      setInterface(weather); // ----- call setInterface function and send weather // step 3
     }
   }
   getData(); // ----- run function
